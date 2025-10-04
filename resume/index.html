@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gopal Jee Srivastava | Portfolio</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg-dark: #0a192f;
+      --text-light: #ccd6f6;
+      --text-dark: #8892b0;
+      --primary: #64ffda;
+      --card-bg: #112240;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: "Poppins", sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 25, 47, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 5%;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      transition: top 0.3s;
+    }
+    nav .logo {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--primary);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    nav ul li a {
+      color: var(--text-light);
+      font-weight: 500;
+      font-size: 0.9rem;
+      position: relative;
+      padding: 5px 0;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--primary);
+    }
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      left: 0;
+      bottom: -5px;
+      transition: width 0.3s;
+    }
+    nav ul li a:hover::after,
+    nav ul li a.active::after {
+      width: 100%;
+    }
+
+    header {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5%;
+    }
+
+    .hero-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      align-items: center;
+      gap: 60px;
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .hero-text h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hero-text h1 span {
+      color: var(--primary);
+    }
+
+    .typing {
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      min-height: 45px;
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .hero-buttons a {
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: 600;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      transition: all 0.3s ease-in-out;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-buttons a:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .hero-img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-img img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid var(--primary);
+      box-shadow: 0 0 30px rgba(100, 255, 218, 0.5);
+    }
+
+    main {
+      padding-top: 50px;
+    }
+
+    section {
+      padding: 60px 5%;
+      max-width: 1000px;
+      margin: 0 auto 80px auto;
+      background: rgba(17, 34, 64, 0.8);
+      border-radius: 12px;
+      border: 1px solid rgba(100, 255, 218, 0.15);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+
+    section.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 50px;
+      position: relative;
+      text-align: center;
+      color: var(--text-light);
+      display: block;
+    }
+
+    section h2::after {
+      content: "";
+      position: absolute;
+      width: 80px;
+      height: 4px;
+      background: var(--primary);
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -15px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #1d2d44;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: var(--primary);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .card h3 {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+    
+    .card p, .card ul {
+      color: var(--text-dark);
+      margin-top: 0;
+    }
+    
+    .card ul {
+      padding-left: 20px;
+    }
+
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .skills-column h3 {
+      font-size: 1.4rem;
+      color: var(--text-light);
+      margin-bottom: 25px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary);
+    }
+
+    .skills-column ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+    
+    .skills-column ul li {
+        margin-bottom: 10px;
+        color: var(--text-dark);
+    }
+
+
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        background-color: #233554;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -2px;
+    }
+
+    .timeline-item-container {
+        padding: 10px 40px;
+        position: relative;
+        background-color: inherit;
+        width: 50%;
+    }
+
+    .timeline-item-container.left {
+        left: 0;
+    }
+
+    .timeline-item-container.right {
+        left: 50%;
+    }
+
+    .timeline-item-container.left::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        right: 30px;
+        border: medium solid var(--primary);
+        border-width: 10px 0 10px 10px;
+        border-color: transparent transparent transparent var(--card-bg);
+    }
+
+    .timeline-item-container.right::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        left: 30px;
+        border: medium solid var(--primary);
+        border-width: 10px 10px 10px 0;
+        border-color: transparent var(--card-bg) transparent transparent;
+    }
+
+    .timeline-item-container.right::after {
+        left: -16px;
+    }
+
+    .timeline-item-container::after {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        right: -14px;
+        background-color: var(--primary);
+        border: 4px solid var(--bg-dark);
+        top: 15px;
+        border-radius: 50%;
+        z-index: 1;
+    }
+    
+    .timeline-item-container.left::after {
+      right: -14px;
+    }
+    
+    .timeline-item-container.right::after {
+      left: -14px;
+    }
+
+    .timeline-content {
+        padding: 20px 30px;
+        background-color: var(--card-bg);
+        position: relative;
+        border-radius: 8px;
+    }
+    
+    .timeline-content h3 { color: var(--primary); }
+    .timeline-content p, .timeline-content ul { color: var(--text-dark); margin: 5px 0 0;}
+    .timeline-content ul { padding-left: 20px; }
+
+    footer {
+      background: #1f2a40;
+      padding: 40px 5%;
+      color: #e2e2e2;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .footer-container {
+        max-width: 1100px;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .footer-logo {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-weight: 700;
+      font-size: 1.5rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+
+    .footer-info {
+      flex: 1;
+      min-width: 250px;
+      font-size: 1rem;
+    }
+
+    .footer-info h3 {
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .footer-info p {
+      margin-bottom: 7px;
+      color: #adb5bd;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-info p i {
+      color: var(--primary, #64ffda);
+    }
+
+    .footer-social a {
+      color: #adb5bd;
+      margin-left: 20px;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+
+    .footer-social a:hover {
+      color: var(--primary, #64ffda);
+    }
+
+    .footer-copyright {
+        text-align:center; 
+        margin-top: 20px; 
+        font-size: 0.9rem; 
+        color: #adb5bd;
+        width: 100%;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="particles-js"></div>
+
+  <nav id="navbar">
+    <div class="logo">Gopal Jee Srivastava</div>
+    <ul>
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href = "#hobbies">Hobbies</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header id="home">
+    <div class="hero-container">
+      <div class="hero-text">
+        <p style="color: var(--primary); font-size: 2.1rem">Hi</p>
+        <h1><span>Gopal Jee Srivastava</span></h1>
+        <p class="typing"></p>
+        <div class="hero-buttons">
+          <a href="mailto:srvgopal07@gmail.com"><i class="fas fa-envelope"></i> Email Me</a>
+          <a href="https://linkedin.com/in/gopal-jee-srivastava-913248297/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+          <a href="https://github.com/SrvGopal" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="/Users/gopal.jee/Desktop/IMG_20250303_131618_376.jpg" alt = "Me">
+    </div>
+  </header>
+
+  <main>
+
+    <section id="education" class="reveal">
+      <h2>Education</h2>
+      <div class="timeline">
+        <div class="timeline-item-container left">
+          <div class="timeline-content">
+            <h3>B.Tech in Computer Science and Engineering</h3>
+            <p>Dr. A.P.J. Abdul Kalam Technical University, Expected 2027</p>
+            <p>Grade: 8.4 CGPA (as of 3rd Semester)</p>
+          </div>
+        </div>
+        <div class="timeline-item-container right">
+          <div class="timeline-content">
+            <h3>Higher Secondary Education (Science Stream)</h3>
+            <p>Lions School, Mirzapur | 2022</p>
+            <p>School Head Boy (2021-2022), Final Grade: 80%</p>
+          </div>
+        </div>
+        <div class="timeline-item-container left">
+          <div class="timeline-content">
+            <h3>Secondary Education</h3>
+            <p>Lions School, Mirzapur | 2020</p>
+            <p>Final Grade: 89%</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="reveal">
+      <h2>Experience</h2>
+      <div class="timeline">
+        <div class="timeline-item-container left">
+          <div class="timeline-content">
+            <h3>Intern (Training)</h3>
+            <p>Avenues, IIT Bombay, Remote | September 2024 - October 2024</p>
+            <ul>
+              <li>Wrote clear, clean code for projects.</li>
+              <li>Proofread technical documentation and user manuals.</li>
+              <li>Built databases and table structures for dummy applications.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item-container right">
+          <div class="timeline-content">
+            <h3>Project Contributor</h3>
+            <p>Physics Dept. (Amity University), Remote | March 2025 - April 2025</p>
+            <ul>
+              <li>Assisted with development and implementation of new course materials.</li>
+              <li>Built and maintained professional relationships with students and faculty.</li>
+              <li>Learned and adapted to new software like COMSOL.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="reveal">
+      <h2>Projects</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Railway Reservation System</h3>
+          <p>Made a Small Railway Reservation System involving Concepts of DBMS and Python <br>(Still in development)</p>
+        </div>
+        <div class="card">
+          <h3></h3>
+          <p>A short description of your project will go here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="reveal">
+      <h2>Skills</h2>
+      <div class="skills-container">
+        <div class="skills-column">
+          <h3>Programming Languages</h3>
+          <ul>
+            <li>Python, C++, Java - <strong>Competent</strong></li>
+            <li>Databases: MySQL, NoSQL - <strong>Fluent</strong></li>
+          </ul>
+        </div>
+        <div class="skills-column">
+          <h3>Tools & Platforms</h3>
+          <ul>
+            <li>Git, GitHub, MacOS, Apache SQLServer - <strong>Fluent</strong></li>
+            <li>PyCharm CE, VS Code, MySQL Workbench - <strong>Fluent/Competent</strong></li>
+          </ul>
+        </div>
+        <div class="skills-column">
+          <h3>Core & Soft Skills</h3>
+          <ul>
+            <li>CS Concepts: Theory of Computation, DBMS, Compilers</li>
+            <li>Team Work & Collaboration</li>
+            <li>Problem Solving</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="certifications" class="reveal">
+      <h2>Certifications</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>OOPS in Java Training</h3>
+          <p>Sept. 2024 to Oct. 2024</p>
+        </div>
+        <div class="card">
+          <h3>Python (Advanced) Training</h3>
+          <p>Apr. 2024 to Jul. 2024</p>
+        </div>
+      </div>
+    </section>
+
+    <section id = "hobbies" class = "reveal">
+        <h2>Hobbies</h2>
+        <div class ="card-grid">
+            <div class = "card">
+                <h3 style = "text-align: center;">Being Me</h3>
+                <p>No particular Hobbies, like doing what my heart says  </p>
+            </div>
+            
+        </div>
+
+    </section>
+    
+    <section id="contact" class="reveal">
+      <h2>Contact Me?</h2>
+      <p>Preferably not!</p>
+      <div class="hero-buttons" style="justify-content: center; margin-top: 30px;">
+        <a href="mailto:srvgopal07@gmail.com"><i class="fas fa-envelope"></i> Email</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-logo">GS</div>
+      <div class="footer-info">
+        <h3>Gopal Jee Srivastava</h3>
+        <p><i class="fas fa-envelope"></i> srvgopal07@gmail.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> Mirzapur, India</p>
+      </div>
+      <div class="footer-social">
+        <a href="https://github.com/SrvGopal" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/gopal-jee-srivastava-913248297/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:srvgopal07@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      &copy; 2025 Gopal Jee Srivastava. All rights reserved.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 80 } },
+        color: { value: "#64ffda" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 6, random: true },
+        line_linked: { enable: false },
+        move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" }
+      }, interactivity: { detect_on: "canvas", events: { onhover: { enable: false }, onclick: { enable: false } } }
+    });
+
+    const texts = ["Results-driven CS Student", "BTech @AKTU", "Problem Solver"];
+    let count = 0, index = 0, currentText = "", letter = "";
+    (function type() {
+      if (count === texts.length) { count = 0; }
+      currentText = texts[count];
+      if (index < currentText.length) {
+        letter = currentText.slice(0, ++index);
+        document.querySelector(".typing").textContent = letter;
+        setTimeout(type, 120);
+      } else {
+        setTimeout(() => {
+          (function erase() {
+            if (index > 0) {
+              letter = currentText.slice(0, --index);
+              document.querySelector(".typing").textContent = letter;
+              setTimeout(erase, 80);
+            } else {
+              count++;
+              type();
+            }
+          })();
+        }, 2000);
+      }
+    })();
+
+    const revealElements = document.querySelectorAll(".reveal");
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    revealElements.forEach((el) => revealObserver.observe(el));
+
+    const sections = document.querySelectorAll("header, section");
+    const navLinks = document.querySelectorAll("nav ul li a");
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        if (pageYOffset >= sectionTop - 60) {
+          current = section.getAttribute("id");
+        }
+      });
+      navLinks.forEach((a) => {
+        a.classList.remove("active");
+        if (a.getAttribute("href").includes(current)) {
+          a.classList.add("active");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
