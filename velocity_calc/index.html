@@ -1,3 +1,256 @@
+
 <html>
-  <title>Velocity Calculator</title>
+<head>
+<title>Ultrasonic Velocity Calculator</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #111827;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --primary: #22c55e;
+    --accent: #60a5fa;
+    --danger: #ef4444;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: radial-gradient(1000px 600px at 10% 10%, #0b1220 0%, #0f172a 60%), var(--bg);
+    color: var(--text);
+    min-height: 100vh; display: grid; place-items: center; padding: 24px;
+  }
+  .container {
+    width: 100%; max-width: 900px; background: linear-gradient(180deg, #0b1020 0%, #0b1020 55%, #0e1428 100%);
+    border: 1px solid #1f2937; border-radius: 16px; padding: 24px; box-shadow: 0 20px 80px rgba(0,0,0,.5);
+  }
+  header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  h1 { font-size: 22px; margin: 0; letter-spacing: .2px; }
+  .row { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; }
+  .card {
+    background: #0a0f1f; border: 1px solid #1f2937; border-radius: 14px; padding: 16px;
+  }
+  label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  input, select, button {
+    width: 100%; padding: 12px 12px; border-radius: 10px; border: 1px solid #273449;
+    background: #0c1326; color: var(--text); outline: none; transition: all .2s ease;
+  }
+  input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(96,165,250,.15); }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .btn {
+    cursor: pointer; background: linear-gradient(90deg, var(--accent), #34d399);
+    border: 0; color: #081224; font-weight: 700; letter-spacing: .3px;
+  }
+  .btn:hover { filter: brightness(1.05); }
+  .muted { color: var(--muted); font-size: 12px; }
+  .result {
+    white-space: pre-line; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #0a0e1a; border: 1px solid #273449; border-radius: 12px; padding: 12px; min-height: 64px;
+  }
+  .pill { display:inline-block; padding: 4px 10px; border-radius: 999px; border:1px solid #2b3b55; background:#0b1222; color:#9fb4d3; font-size: 12px;}
+  .warning { color: var(--danger); font-size: 12px; }
+  footer { margin-top: 16px; text-align: center; color: var(--muted); font-size: 12px; }
+  @media (max-width: 840px){ .row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Ultrasonic Velocity Calculator</h1>
+      <span class="pill">Equations 10, 11, 12, 13, 14</span>
+    </header>
+
+    <div class="row">
+      <!-- Controls -->
+      <section class="card">
+        <div class="grid">
+          <div>
+            <label for="equation">Equation</label>
+            <select id="equation">
+              <option value="10">Eq. 10 — Direction ⟨100⟩</option>
+              <option value="11">Eq. 11 — Direction ⟨110⟩</option>
+              <option value="12">Eq. 12 — Direction ⟨111⟩</option>
+              <option value="13">Eq. 13 — Debye avg (⟨100⟩, ⟨111⟩)</option>
+              <option value="14">Eq. 14 — Debye avg (⟨110⟩)</option>
+            </select>
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button id="calc" class="btn">Calculate</button>
+          </div>
+        </div>
+
+        <div id="inputs-10-11-12" style="margin-top:14px;">
+          <div class="grid">
+            <div>
+              <label for="C11">C11</label>
+              <input id="C11" type="number" step="any" value="1" />
+            </div>
+            <div>
+              <label for="C12">C12</label>
+              <input id="C12" type="number" step="any" value="0" />
+            </div>
+            <div>
+              <label for="C44">C44</label>
+              <input id="C44" type="number" step="any" value="1" />
+            </div>
+            <div>
+              <label for="dens">Density d</label>
+              <input id="dens" type="number" step="any" value="1" />
+            </div>
+          </div>
+          <p class="muted" id="eq-desc-10-11-12" style="margin-top:10px;"></p>
+        </div>
+
+        <div id="inputs-13-14" style="margin-top:14px; display:none;">
+          <div class="grid">
+            <div>
+              <label for="VL">VL</label>
+              <input id="VL" type="number" step="any" value="1" />
+            </div>
+            <div>
+              <label for="VS1">VS1</label>
+              <input id="VS1" type="number" step="any" value="1" />
+            </div>
+            <div>
+              <label for="VS2">VS2</label>
+              <input id="VS2" type="number" step="any" value="1" />
+            </div>
+          </div>
+          <p class="muted" id="eq-desc-13-14" style="margin-top:10px;"></p>
+        </div>
+
+        <p class="warning" id="warn"></p>
+      </section>
+
+      <!-- Results -->
+      <section class="card">
+        <label>Results</label>
+        <div id="result" class="result"></div>
+      </section>
+    </div>
+
+    <footer>Use consistent units (e.g., Pa and kg/m³) to get velocities in m/s.</footer>
+  </div>
+
+<script>
+(function(){
+  const equation = document.getElementById('equation');
+  const calcBtn  = document.getElementById('calc');
+  const warn     = document.getElementById('warn');
+  const resultEl = document.getElementById('result');
+
+  const blockA   = document.getElementById('inputs-10-11-12');
+  const blockB   = document.getElementById('inputs-13-14');
+
+  const C11 = document.getElementById('C11');
+  const C12 = document.getElementById('C12');
+  const C44 = document.getElementById('C44');
+  const dens = document.getElementById('dens');
+
+  const VL = document.getElementById('VL');
+  const VS1 = document.getElementById('VS1');
+  const VS2 = document.getElementById('VS2');
+
+  const descA = document.getElementById('eq-desc-10-11-12');
+  const descB = document.getElementById('eq-desc-13-14');
+
+  const fmt = (x) => Number.isFinite(x) ? x.toFixed(6) : String(x);
+
+  function setEquationDesc(){
+    const v = equation.value;
+    if (["10","11","12"].includes(v)) {
+      blockA.style.display = "";
+      blockB.style.display = "none";
+      descB.textContent = "";
+      if (v === "10") {
+        descA.textContent = "Eq.10: VL = sqrt(C11/d), VS1 = VS2 = sqrt(C44/d)";
+      } else if (v === "11") {
+        descA.textContent = "Eq.11: VL = sqrt((C11+C12+2C44)/(2d)), VS1 = sqrt(C44/d), VS2 = sqrt((C11-C12)/(2d))";
+      } else {
+        descA.textContent = "Eq.12: VL = sqrt((C11+2C12+4C44)/(3d)), VS1 = VS2 = sqrt((C11-C12+C44)/(3d))";
+      }
+    } else {
+      blockA.style.display = "none";
+      blockB.style.display = "";
+      descA.textContent = "";
+      if (v === "13") {
+        descB.textContent = "Eq.13: VD = [1/3 * (1/VL + 2/VS1)]^(-1/3)";
+      } else {
+        descB.textContent = "Eq.14: VD = [1/3 * (1/VL^3 + 1/VS1^3 + 1/VS2^3)]^(-1/3)";
+      }
+    }
+    resultEl.textContent = "";
+    warn.textContent = "";
+  }
+
+  function requireNum(el, name){
+    const val = el.value.trim();
+    if (!val) throw new Error(name + " cannot be empty");
+    const num = Number(val);
+    if (!Number.isFinite(num)) throw new Error(name + " must be numeric");
+    return num;
+  }
+
+  function calc(){
+    try {
+      warn.textContent = "";
+      const sel = equation.value;
+
+      if (sel === "10") {
+        const c11 = requireNum(C11, "C11");
+        const c44 = requireNum(C44, "C44");
+        const d   = requireNum(dens, "Density d");
+        if (d <= 0) throw new Error("Density must be positive");
+        const VLv = Math.sqrt(c11/d);
+        const VSv = Math.sqrt(c44/d);
+        resultEl.textContent = `VL = ${fmt(VLv)}\nVS1 = ${fmt(VSv)}\nVS2 = ${fmt(VSv)}`;
+
+      } else if (sel === "11") {
+        const c11 = requireNum(C11, "C11");
+        const c12 = requireNum(C12, "C12");
+        const c44 = requireNum(C44, "C44");
+        const d   = requireNum(dens, "Density d");
+        if (d <= 0) throw new Error("Density must be positive");
+        const VLv = Math.sqrt((c11 + c12 + 2*c44)/(2*d));
+        const VS1v = Math.sqrt(c44/d);
+        const VS2v = Math.sqrt((c11 - c12)/(2*d));
+        resultEl.textContent = `VL = ${fmt(VLv)}\nVS1 = ${fmt(VS1v)}\nVS2 = ${fmt(VS2v)}`;
+
+      } else if (sel === "12") {
+        const c11 = requireNum(C11, "C11");
+        const c12 = requireNum(C12, "C12");
+        const c44 = requireNum(C44, "C44");
+        const d   = requireNum(dens, "Density d");
+        if (d <= 0) throw new Error("Density must be positive");
+        const VLv = Math.sqrt((c11 + 2*c12 + 4*c44)/(3*d));
+        const VSv = Math.sqrt((c11 - c12 + c44)/(3*d));
+        resultEl.textContent = `VL = ${fmt(VLv)}\nVS1 = ${fmt(VSv)}\nVS2 = ${fmt(VSv)}`;
+
+      } else if (sel === "13") {
+        const VLn  = requireNum(VL, "VL");
+        const VS1n = requireNum(VS1, "VS1");
+        if (VLn <= 0 || VS1n <= 0) throw new Error("Speeds must be positive");
+        const VD = Math.pow((1/3) * (1/VLn + 2/VS1n), -1/3);
+        resultEl.textContent = `VD = ${fmt(VD)}`;
+
+      } else if (sel === "14") {
+        const VLn  = requireNum(VL, "VL");
+        const VS1n = requireNum(VS1, "VS1");
+        const VS2n = requireNum(VS2, "VS2");
+        if (VLn <= 0 || VS1n <= 0 || VS2n <= 0) throw new Error("Speeds must be positive");
+        const VD = Math.pow((1/3) * (1/Math.pow(VLn,3) + 1/Math.pow(VS1n,3) + 1/Math.pow(VS2n,3)), -1/3);
+        resultEl.textContent = `VD = ${fmt(VD)}`;
+      }
+    } catch (e) {
+      resultEl.textContent = "";
+      warn.textContent = e.message || String(e);
+    }
+  }
+
+  equation.addEventListener('change', setEquationDesc);
+  document.getElementById('calc').addEventListener('click', calc);
+  setEquationDesc();
+})();
+</script>
+</body>
 </html>
