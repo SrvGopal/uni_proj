@@ -1,258 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ultrasonic Velocity Calculator</title>
-<style>
-  :root {
-    --bg: #0f172a;
-    --card: #111827;
-    --text: #e5e7eb;
-    --muted: #9ca3af;
-    --primary: #22c55e;
-    --accent: #60a5fa;
-    --danger: #ef4444;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: radial-gradient(1000px 600px at 10% 10%, #0b1220 0%, #0f172a 60%), var(--bg);
-    color: var(--text);
-    min-height: 100vh; display: grid; place-items: center; padding: 24px;
-  }
-  .container {
-    width: 100%; max-width: 900px; background: linear-gradient(180deg, #0b1020 0%, #0b1020 55%, #0e1428 100%);
-    border: 1px solid #1f2937; border-radius: 16px; padding: 24px; box-shadow: 0 20px 80px rgba(0,0,0,.5);
-  }
-  header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-  h1 { font-size: 22px; margin: 0; letter-spacing: .2px; }
-  .row { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; }
-  .card {
-    background: #0a0f1f; border: 1px solid #1f2937; border-radius: 14px; padding: 16px;
-  }
-  label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-  input, select, button {
-    width: 100%; padding: 12px 12px; border-radius: 10px; border: 1px solid #273449;
-    background: #0c1326; color: var(--text); outline: none; transition: all .2s ease;
-  }
-  input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(96,165,250,.15); }
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .btn {
-    cursor: pointer; background: linear-gradient(90deg, var(--accent), #34d399);
-    border: 0; color: #081224; font-weight: 700; letter-spacing: .3px;
-  }
-  .btn:hover { filter: brightness(1.05); }
-  .muted { color: var(--muted); font-size: 12px; }
-  .result {
-    white-space: pre-line; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    background: #0a0e1a; border: 1px solid #273449; border-radius: 12px; padding: 12px; min-height: 64px;
-  }
-  .pill { display:inline-block; padding: 4px 10px; border-radius: 999px; border:1px solid #2b3b55; background:#0b1222; color:#9fb4d3; font-size: 12px;}
-  .warning { color: var(--danger); font-size: 12px; }
-  footer { margin-top: 16px; text-align: center; color: var(--muted); font-size: 12px; }
-  @media (max-width: 840px){ .row { grid-template-columns: 1fr; } }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gopal Jee Srivastava | Portfolio</title>
+  <!-- Font and Icon Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Portfolio Styles -->
+  <style>
+    /* Root Variables */
+    :root {
+      --bg-dark: #0a192f;
+      --section-bg: #232b34;
+      --section-bg-2: #222a34;
+      --text-light: #ccd6f6;
+      --text-dark: #adb5bd;
+      --primary: #64ffda;
+      --accent: #764ba2;
+      --card-bg: #2d3842;
+      --border-highlight: #52e0fa;
+      --icon-gradient: linear-gradient(135deg, #667eea 50%, #764ba2 100%);
+    }
+
+    /* Body Styles */
+    body {
+      font-family: "Poppins", sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.7;
+      overflow-x: hidden;
+      margin: 0;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* Particles Background */
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+    }
+
+    /* Navigation Bar */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(10, 25, 47, 0.85);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 5%; z-index: 1000; backdrop-filter: blur(10px);
+      transition: top 0.3s;
+    }
+    nav .logo {
+      font-weight: 700; font-size: 1.5rem; color: var(--primary);
+    }
+    nav ul {
+      list-style: none;
+      display: flex; flex-wrap: wrap; gap: 20px;
+    }
+    nav ul li a {
+      color: var(--text-light);
+      font-weight: 500; font-size: 0.9rem;
+      position: relative; padding: 5px 0;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--primary);
+    }
+    nav ul li a::after {
+      content: ""; position: absolute; width: 0; height: 2px; background: var(--primary);
+      left: 0; bottom: -5px; transition: width 0.3s;
+    }
+    nav ul li a:hover::after,
+    nav ul li a.active::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    header {
+      min-height: 100vh; display: flex; align-items: center; padding: 0 5%;
+    }
+    .hero-container {
+      display: grid; grid-template-columns: 2fr 1fr; align-items: center; gap: 60px;
+      width: 100%; max-width: 1200px; margin: auto;
+    }
+    .hero-text h1 { font-size: 4rem; font-weight: 700; margin-bottom: 10px; }
+    .hero-text h1 span { color: var(--primary); }
+    .typing { font-size: 1.5rem; color: var(--text-dark); min-height: 45px; margin-bottom: 30px;}
+    .hero-buttons {
+      display: flex; gap: 15px; flex-wrap: wrap;
+    }
+    .hero-buttons a {
+      padding: 10px 20px;
+      border-radius: 5px; font-weight: 600;
+      border: 1px solid var(--primary); color: var(--primary);
+      transition: all 0.3s ease-in-out; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .hero-buttons a:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-3px);
+    }
+    .hero-img {
+      display: flex; justify-content: center; align-items: center;
+    }
+    .hero-img img {
+      width: 250px; height: 250px; object-fit: cover; border-radius: 50%;
+      border: 4px solid var(--primary); box-shadow: 0 0 30px rgba(100, 255, 218, 0.5);
+    }
+
+    /* Main and Sections */
+    main { padding-top: 50px; }
+    section {
+      padding: 60px 5%; max-width: 1100px; margin: 0 auto 80px auto;
+      background: var(--section-bg); border-radius: 12px;
+      border: 1px solid rgba(100, 255, 218, 0.10);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.23);
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+    section.active {
+      opacity: 1; transform: translateY(0);
+    }
+    section h2 {
+      font-size: 2.5rem; margin-bottom: 50px; position: relative; text-align: center; color: #fff; display: block;
+    }
+    section h2::after {
+      content: ""; position: absolute; width: 80px; height: 4px;
+      background: linear-gradient(90deg, #64ffda 15%, #764ba2 85%);
+      left: 50%; transform: translateX(-50%); bottom: -15px; border-radius: 3px;
+    }
+    /* About Section Layout */
+    .about-layout { display: flex; flex-direction: column; gap: 30px; }
+    .about-card-wide {
+      background: var(--section-bg-2); color: #fff; border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+      padding: 36px 40px; width: 100%;
+      margin-bottom: 0; border: 2px solid transparent; transition: border-color 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .about-card-wide:hover { border-color: var(--primary); }
+    .about-card-row {
+      display: flex; gap: 30px; justify-content: stretch;
+    }
+    .about-card {
+      background: var(--section-bg-2); color: #fff;
+      border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+      padding: 36px 38px; flex: 1 1 0; min-width: 280px; border: 2px solid transparent;
+      display: flex; flex-direction: column;
+      transition: border-color 0.3s;
+    }
+    .about-card:hover { border-color: var(--primary); }
+    .about-icon {
+      width: 46px; height: 46px; background: var(--icon-gradient); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 2.1rem; margin-bottom: 14px;
+      box-shadow: 0 1px 10px 0px rgba(100,255,218,0.10);
+    }
+    .about-title {
+      font-size: 1.45rem; font-weight: 700; margin-bottom: 13px; color: #fff;
+      display: flex; align-items: center; gap: 11px;
+    }
+    .about-highlight { color: #52e0fa; font-weight: 600; text-decoration: none; }
+    .about-tags { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .about-tag {
+      background: #2b3850; color: #52e0fa; font-size: 0.95em;
+      padding: 7px 17px; border-radius: 22px; font-weight: 500;
+      border: 1px solid #33536a; display: inline-flex; align-items: center; gap: 7px;
+    }
+    .about-bullets { margin-top: 15px; padding-left: 20px; color: var(--text-dark); font-size: 1.08rem; }
+    .about-bullets li { padding-bottom: 5px; list-style-type: "✔️ "; margin-left: 0; }
+    .about-bottom-tags {
+      margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .about-bottom-tags .about-tag {
+      background: #222a38;
+      color: #89ffe9;
+      font-size: 0.92em;
+      border: none;
+      padding: 7px 15px;
+    }
+    @media (max-width:900px) {
+      .about-card-row { flex-direction: column; gap: 30px; }
+    }
+
+    /* Card Grid Styles */
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+    }
+    .card {
+      background: #2d3842; padding: 30px; border-radius: 12px; border: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      display: flex; flex-direction: column; align-items: flex-start;
+    }
+    .card h3 { font-size: 1.2rem; color: #fff; margin-bottom: 8px;}
+    .card p, .card ul {color: #adb5bd; margin-top: 0;}
+    .card ul {padding-left: 20px;}
+
+    /* Skills Section */
+    .skills-container {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;
+    }
+    .skills-column h3 {
+      font-size: 1.4rem; color: #fff; margin-bottom: 25px;
+      padding-bottom: 10px; border-bottom: 2px solid var(--primary);
+    }
+    .skills-column ul { list-style: none; padding-left: 0; margin: 0; }
+    .skills-column ul li { margin-bottom: 10px; color: #adb5bd; }
+
+    /* Timeline Styles */
+    .timeline {
+      position: relative; max-width: 800px; margin: 0 auto;
+    }
+    .timeline::after {
+      content: ''; position: absolute; width: 4px; background-color: #233554;
+      top: 0; bottom: 0; left: 50%; margin-left: -2px;
+    }
+    .timeline-item-container {
+      padding: 10px 40px; position: relative; background-color: inherit; width: 50%;
+    }
+    .timeline-item-container.left { left: 0; }
+    .timeline-item-container.right { left: 50%; }
+    .timeline-item-container.left::before {
+      content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1; right: 30px;
+      border: medium solid var(--primary); border-width: 10px 0 10px 10px;
+      border-color: transparent transparent transparent var(--card-bg);
+    }
+    .timeline-item-container.right::before {
+      content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1; left: 30px;
+      border: medium solid var(--primary); border-width: 10px 10px 10px 0;
+      border-color: transparent var(--card-bg) transparent transparent;
+    }
+    .timeline-item-container.right::after { left: -14px; }
+    .timeline-item-container.left::after { right: -14px; }
+    .timeline-item-container::after {
+      content: ''; position: absolute; width: 25px; height: 25px; background-color: var(--primary);
+      border: 4px solid var(--bg-dark); top: 15px; border-radius: 50%; z-index: 1;
+    }
+    .timeline-content {
+      padding: 20px 30px; background-color: #21262e; position: relative; border-radius: 8px;
+    }
+    .timeline-content h3 { color: #64ffda; }
+    .timeline-content p, .timeline-content ul {color: #adb5bd; margin: 5px 0 0;}
+    .timeline-content ul {padding-left: 20px;}
+
+    /* Footer Styles */
+    footer {
+      background: #232b34; color: #fff; padding: 40px 0 20px 0;
+      font-family: 'Poppins', sans-serif; margin-top: 0; border-top: 2px solid #2d3842;
+    }
+    .footer-main {
+      max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .footer-user {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .footer-avatar {
+      background: linear-gradient(135deg, #667eea, #764ba2); color: #fff;
+      width: 48px; height: 48px; border-radius: 12px; font-weight: bold;
+      font-size: 1.4rem; display: flex; align-items: center; justify-content: center;
+    }
+    .footer-user-name { font-weight: 700; font-size: 1.18rem; margin-bottom: 3px; }
+    .footer-email, .footer-location {
+      font-size: 0.98rem; color: #adb5bd;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 2px;
+    }
+    .footer-copyright { font-size: 1rem; color: #bfc9d8; margin: 10px 0; flex: 1; text-align: center; }
+    .footer-icons {
+      display: flex; align-items: center; gap: 18px; margin-left: 20px;
+    }
+    .footer-icons a { color: #bfc9d8; font-size: 1.45rem; transition: color 0.2s; }
+    .footer-icons a:hover { color: var(--primary); }
+    @media (max-width: 700px){
+      .footer-main { flex-direction: column; gap: 30px; text-align: center;}
+      .footer-icons { margin-left: 0; justify-content: center;}
+      .footer-user {justify-content: center;}
+      .about-card-row {flex-direction:column; gap: 30px;}
+    }
+  </style>
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <h1>Ultrasonic Velocity Calculator</h1>
-      <span class="pill">Equations 10, 11, 12, 13, 14</span>
-    </header>
+  <!-- Particle Animation Background -->
+  <div id="particles-js"></div>
 
-    <div class="row">
-      <!-- Controls -->
-      <section class="card">
-        <div class="grid">
-          <div>
-            <label for="equation">Equation</label>
-            <select id="equation">
-              <option value="10">Eq. 10 — Direction ⟨100⟩</option>
-              <option value="11">Eq. 11 — Direction ⟨110⟩</option>
-              <option value="12">Eq. 12 — Direction ⟨111⟩</option>
-              <option value="13">Eq. 13 — Debye avg (⟨100⟩, ⟨111⟩)</option>
-              <option value="14">Eq. 14 — Debye avg (⟨110⟩)</option>
-            </select>
-          </div>
-          <div>
-            <label>&nbsp;</label>
-            <button id="calc" class="btn">Calculate</button>
-          </div>
+  <!-- Navigation Bar -->
+  <nav id="navbar">
+    <div class="logo">Gopal Jee Srivastava</div>
+    <ul>
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#hobbies">Hobbies</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Header -->
+  <header id="home">
+    <div class="hero-container">
+      <div class="hero-text">
+        <p style="color: var(--primary); font-size: 2.1rem;">Hi,</p>
+        <h1><span>Gopal Jee Srivastava</span></h1>
+        <p class="typing"></p>
+        <div class="hero-buttons">
+          <a href="mailto:srvgopal07@gmail.com"><i class="fas fa-envelope"></i> Email Me</a>
+          <a href="https://linkedin.com/in/gopal-jee-srivastava-913248297/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+          <a href="https://github.com/SrvGopal" target="_blank"><i class="fab fa-github"></i> GitHub</a>
         </div>
-
-        <div id="inputs-10-11-12" style="margin-top:14px;">
-          <div class="grid">
-            <div>
-              <label for="C11">C11</label>
-              <input id="C11" type="number" step="any" value="1" />
-            </div>
-            <div>
-              <label for="C12">C12</label>
-              <input id="C12" type="number" step="any" value="0" />
-            </div>
-            <div>
-              <label for="C44">C44</label>
-              <input id="C44" type="number" step="any" value="1" />
-            </div>
-            <div>
-              <label for="dens">Density d</label>
-              <input id="dens" type="number" step="any" value="1" />
-            </div>
-          </div>
-          <p class="muted" id="eq-desc-10-11-12" style="margin-top:10px;"></p>
-        </div>
-
-        <div id="inputs-13-14" style="margin-top:14px; display:none;">
-          <div class="grid">
-            <div>
-              <label for="VL">VL</label>
-              <input id="VL" type="number" step="any" value="1" />
-            </div>
-            <div>
-              <label for="VS1">VS1</label>
-              <input id="VS1" type="number" step="any" value="1" />
-            </div>
-            <div>
-              <label for="VS2">VS2</label>
-              <input id="VS2" type="number" step="any" value="1" />
-            </div>
-          </div>
-          <p class="muted" id="eq-desc-13-14" style="margin-top:10px;"></p>
-        </div>
-
-        <p class="warning" id="warn"></p>
-      </section>
-
-      <!-- Results -->
-      <section class="card">
-        <label>Results</label>
-        <div id="result" class="result"></div>
-      </section>
+      </div>
+      <div class="hero-img">
+        <img src="https://www.dropbox.com/scl/fi/h0gtsjh6fcwg1eeewaw30/IMG_20250303_131618_376.jpg?rlkey=6arild9ufhx2nf5xzffm5y6t0&st=74mykg4d&raw=1" alt="Me">
+      </div>
     </div>
+  </header>
 
-    <footer>Use consistent units (e.g., Pa and kg/m³) to get velocities in m/s.</footer>
-  </div>
+  <main>
+    <!-- About Section -->
+    <section id="about" class="reveal">
+      <h2>About Me</h2>
+      <div class="about-layout">
+        <div class="about-card-wide">
+          <div class="about-title">
+            <span class="about-icon"><i class="fas fa-user"></i></span>
+            Who I Am
+          </div>
+          <div style="margin-bottom:12px;font-size:1.11rem;">
+            I am <span class="about-highlight">Gopal Jee Srivastava</span>, a passionate Computer Science student at Dr. A.P.J. Abdul Kalam Technical University. I strive to solve complex problems through technology and create solutions that make a meaningful impact. I am currently aiming for higher studies
+          </div>
+          <div class="about-tags">
+            <div class="about-tag"><i class="fas fa-graduation-cap"></i> B.Tech Computer Science</div>
+            <div class="about-tag"><i class="fas fa-medal"></i> Prospective PG Student</div>
+          </div>
+        </div>
+        <div class="about-card-row">
+          <div class="about-card">
+            <div class="about-title">
+              <span class="about-icon"><i class="fas fa-brain"></i></span>
+              My Approach
+            </div>
+            <div>
+              I am a focused individual with a strong and logic driven mind and a quick learning ability. I like to work meaningfully , pay attention to detail, and have positive attitude to every task, always aiming to get better
+            </div>
+            <ul class="about-bullets">
+              <li>Problem solver</li>
+              <li>Non Mugging Human</li>
+              <li>Continuous learner</li>
+            </ul>
+          </div>
+          <div class="about-card">
+            <div class="about-title">
+              <span class="about-icon"><i class="fas fa-rocket"></i></span>
+              My Passion
+            </div>
+            <div>
+              Passionate about technology, I continuously seek to learn and grow. I take pride in producing high-quality work and being a reliable human.
+            </div>
+            <div class="about-bottom-tags">
+              <span class="about-tag">Problem Solving</span>
+              <span class="about-tag">Creation</span>
+              <span class="about-tag">Entrepreneureal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<script>
-(function(){
-  const equation = document.getElementById('equation');
-  const calcBtn  = document.getElementById('calc');
-  const warn     = document.getElementById('warn');
-  const resultEl = document.getElementById('result');
+    <!-- Education Section -->
+    <section id="education" class="reveal">
+      <h2>Education</h2>
+      <div class="timeline">
+        <div class="timeline-item-container left">
+          <div class="timeline-content">
+            <h3>B.Tech in Computer Science and Engineering</h3>
+            <p>Dr. A.P.J. Abdul Kalam Technical University, Expected 2027</p>
+            <p>Grade: 8.4 CGPA (as of 3rd Semester)</p>
+          </div>
+        </div>
+        <div class="timeline-item-container right">
+          <div class="timeline-content">
+            <h3>Higher Secondary Education (Science Stream)</h3>
+            <p>Lions School, Mirzapur | 2022</p>
+            <p>School Head Boy (2021-2022), Final Grade: 80%</p>
+          </div>
+        </div>
+        <div class="timeline-item-container left">
+          <div class="timeline-content">
+            <h3>Secondary Education</h3>
+            <p>Lions School, Mirzapur | 2020</p>
+            <p>Final Grade: 89%</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  const blockA   = document.getElementById('inputs-10-11-12');
-  const blockB   = document.getElementById('inputs-13-14');
+    <!-- Experience Section -->
+    <section id="experience" class="reveal">
+      <h2>Experience</h2>
+      <div class="timeline">
+        <div class="timeline-item-container left">
+          <div class="timeline-content">
+            <h3>Intern (Training)</h3>
+            <p>Avenues, IIT Bombay, Remote | Sept 2024 - Oct 2024</p>
+            <ul>
+              <li>Wrote clear, clean code for projects.</li>
+              <li>Proofread technical documentation and user manuals.</li>
+              <li>Built databases and table structures for dummy applications.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item-container right">
+          <div class="timeline-content">
+            <h3>Project Contributor</h3>
+            <p>Physics Dept. (Amity University), Remote | March 2025 - April 2025</p>
+            <ul>
+              <li>Assisted with development and implementation of new course materials.</li>
+              <li>Built and maintained professional relationships with students and faculty.</li>
+              <li>Learned and adapted to new software like COMSOL.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  const C11 = document.getElementById('C11');
-  const C12 = document.getElementById('C12');
-  const C44 = document.getElementById('C44');
-  const dens = document.getElementById('dens');
+    <!-- Projects Section -->
+    <section id="projects" class="reveal">
+      <h2>Projects</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Railway Reservation System</h3>
+          <p>Small Railway Reservation System using concepts of DBMS and Python. (In development)</p>
+        </div>
+        <div class="card">
+          <h3></h3>
+          <p>A short description of your project will go here.</p>
+        </div>
+      </div>
+    </section>
 
-  const VL = document.getElementById('VL');
-  const VS1 = document.getElementById('VS1');
-  const VS2 = document.getElementById('VS2');
+    <!-- Skills Section -->
+    <section id="skills" class="reveal">
+      <h2>Skills</h2>
+      <div class="skills-container">
+        <div class="skills-column">
+          <h3>Programming Languages</h3>
+          <ul>
+            <li>Python, C++, Java - <strong>Competent</strong></li>
+            <li>Databases: MySQL, NoSQL - <strong>Fluent</strong></li>
+          </ul>
+        </div>
+        <div class="skills-column">
+          <h3>Tools & Platforms</h3>
+          <ul>
+            <li>Git, GitHub, MacOS, Apache SQLServer - <strong>Fluent</strong></li>
+            <li>PyCharm CE, VS Code, MySQL Workbench - <strong>Fluent/Competent</strong></li>
+          </ul>
+        </div>
+        <div class="skills-column">
+          <h3>Core & Soft Skills</h3>
+          <ul>
+            <li>CS Concepts: Theory of Computation, DBMS, Compilers</li>
+            <li>Team Work & Collaboration</li>
+            <li>Problem Solving</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-  const descA = document.getElementById('eq-desc-10-11-12');
-  const descB = document.getElementById('eq-desc-13-14');
+    <!-- Certifications Section -->
+    <section id="certifications" class="reveal">
+      <h2>Certifications</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>OOPS in Java Training</h3>
+          <p>Sept. 2024 to Oct. 2024</p>
+        </div>
+        <div class="card">
+          <h3>Python (Advanced) Training</h3>
+          <p>Apr. 2024 to Jul. 2024</p>
+        </div>
+      </div>
+    </section>
 
-  const fmt = (x) => Number.isFinite(x) ? x.toFixed(6) : String(x);
+    <!-- Hobbies Section -->
+    <section id="hobbies" class="reveal">
+      <h2>Hobbies</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3 style="text-align: center;">Being Me</h3>
+          <p>No particular Hobbies, like doing what my heart says </p>
+        </div>
+      </div>
+    </section>
 
-  function setEquationDesc(){
-    const v = equation.value;
-    if (["10","11","12"].includes(v)) {
-      blockA.style.display = "";
-      blockB.style.display = "none";
-      descB.textContent = "";
-      if (v === "10") {
-        descA.textContent = "Eq.10: VL = sqrt(C11/d), VS1 = VS2 = sqrt(C44/d)";
-      } else if (v === "11") {
-        descA.textContent = "Eq.11: VL = sqrt((C11+C12+2C44)/(2d)), VS1 = sqrt(C44/d), VS2 = sqrt((C11-C12)/(2d))";
+    <!-- Contact Section -->
+    <section id="contact" class="reveal">
+      <h2>Contact Me?</h2>
+      <p>Preferably not!</p>
+      <div class="hero-buttons" style="justify-content: center; margin-top: 30px;">
+        <a href="mailto:srvgopal07@gmail.com"><i class="fas fa-envelope"></i> Email</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-main">
+      <div class="footer-user">
+        <div class="footer-avatar">GS</div>
+        <div>
+          <div class="footer-user-name">Gopal Jee Srivastava</div>
+          <div class="footer-email">
+            <i class="fas fa-envelope"></i> <a href="mailto:srvgopal07@gmail.com">srvgopal07@gmail.com</a>
+          </div>
+          <div class="footer-location">
+            <i class="fas fa-map-marker-alt"></i> Mirzapur, India
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        &copy; 2025 Gopal Jee Srivastava. All rights reserved.
+      </div>
+      <div class="footer-icons">
+        <a href="https://github.com/SrvGopal" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/gopal-jee-srivastava-913248297/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:srvgopal07@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Particle background initialization
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 12, density: { enable: true, value_area: 50 } },
+        color: { value: "#64ffda" },
+        shape: { type: "circle" },
+        opacity: { value: 10, random: true },
+        size: { value: 5, random: true },
+        line_linked: { enable: true },
+        move: { enable: true, speed: 4, direction: "none", random: true, straight: false, out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true }, onclick: { enable: false } }
+      }
+    });
+
+    // Typing animation in Hero
+    const texts = ["Results-driven CS Student", "BTech @AKTU", "Problem Solver"];
+    let count = 0, index = 0, currentText = "", letter = "";
+    (function type() {
+      if (count === texts.length) { count = 0; }
+      currentText = texts[count];
+      if (index < currentText.length) {
+        letter = currentText.slice(0, ++index);
+        document.querySelector(".typing").textContent = letter;
+        setTimeout(type, 120);
       } else {
-        descA.textContent = "Eq.12: VL = sqrt((C11+2C12+4C44)/(3d)), VS1 = VS2 = sqrt((C11-C12+C44)/(3d))";
+        setTimeout(() => {
+          (function erase() {
+            if (index > 0) {
+              letter = currentText.slice(0, --index);
+              document.querySelector(".typing").textContent = letter;
+              setTimeout(erase, 80);
+            } else {
+              count++;
+              type();
+            }
+          })();
+        }, 2000);
       }
-    } else {
-      blockA.style.display = "none";
-      blockB.style.display = "";
-      descA.textContent = "";
-      if (v === "13") {
-        descB.textContent = "Eq.13: VD = [1/3 * (1/VL + 2/VS1)]^(-1/3)";
-      } else {
-        descB.textContent = "Eq.14: VD = [1/3 * (1/VL^3 + 1/VS1^3 + 1/VS2^3)]^(-1/3)";
-      }
-    }
-    resultEl.textContent = "";
-    warn.textContent = "";
-  }
+    })();
 
-  function requireNum(el, name){
-    const val = el.value.trim();
-    if (!val) throw new Error(name + " cannot be empty");
-    const num = Number(val);
-    if (!Number.isFinite(num)) throw new Error(name + " must be numeric");
-    return num;
-  }
+    // Section reveal on scroll
+    const revealElements = document.querySelectorAll(".reveal");
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    revealElements.forEach((el) => revealObserver.observe(el));
 
-  function calc(){
-    try {
-      warn.textContent = "";
-      const sel = equation.value;
-
-      if (sel === "10") {
-        const c11 = requireNum(C11, "C11");
-        const c44 = requireNum(C44, "C44");
-        const d   = requireNum(dens, "Density d");
-        if (d <= 0) throw new Error("Density must be positive");
-        const VLv = Math.sqrt(c11/d);
-        const VSv = Math.sqrt(c44/d);
-        resultEl.textContent = `VL = ${fmt(VLv)}\nVS1 = ${fmt(VSv)}\nVS2 = ${fmt(VSv)}`;
-
-      } else if (sel === "11") {
-        const c11 = requireNum(C11, "C11");
-        const c12 = requireNum(C12, "C12");
-        const c44 = requireNum(C44, "C44");
-        const d   = requireNum(dens, "Density d");
-        if (d <= 0) throw new Error("Density must be positive");
-        const VLv = Math.sqrt((c11 + c12 + 2*c44)/(2*d));
-        const VS1v = Math.sqrt(c44/d);
-        const VS2v = Math.sqrt((c11 - c12)/(2*d));
-        resultEl.textContent = `VL = ${fmt(VLv)}\nVS1 = ${fmt(VS1v)}\nVS2 = ${fmt(VS2v)}`;
-
-      } else if (sel === "12") {
-        const c11 = requireNum(C11, "C11");
-        const c12 = requireNum(C12, "C12");
-        const c44 = requireNum(C44, "C44");
-        const d   = requireNum(dens, "Density d");
-        if (d <= 0) throw new Error("Density must be positive");
-        const VLv = Math.sqrt((c11 + 2*c12 + 4*c44)/(3*d));
-        const VSv = Math.sqrt((c11 - c12 + c44)/(3*d));
-        resultEl.textContent = `VL = ${fmt(VLv)}\nVS1 = ${fmt(VSv)}\nVS2 = ${fmt(VSv)}`;
-
-      } else if (sel === "13") {
-        const VLn  = requireNum(VL, "VL");
-        const VS1n = requireNum(VS1, "VS1");
-        if (VLn <= 0 || VS1n <= 0) throw new Error("Speeds must be positive");
-        const VD = Math.pow((1/3) * (1/VLn + 2/VS1n), -1/3);
-        resultEl.textContent = `VD = ${fmt(VD)}`;
-
-      } else if (sel === "14") {
-        const VLn  = requireNum(VL, "VL");
-        const VS1n = requireNum(VS1, "VS1");
-        const VS2n = requireNum(VS2, "VS2");
-        if (VLn <= 0 || VS1n <= 0 || VS2n <= 0) throw new Error("Speeds must be positive");
-        const VD = Math.pow((1/3) * (1/Math.pow(VLn,3) + 1/Math.pow(VS1n,3) + 1/Math.pow(VS2n,3)), -1/3);
-        resultEl.textContent = `VD = ${fmt(VD)}`;
-      }
-    } catch (e) {
-      resultEl.textContent = "";
-      warn.textContent = e.message || String(e);
-    }
-  }
-
-  equation.addEventListener('change', setEquationDesc);
-  document.getElementById('calc').addEventListener('click', calc);
-  setEquationDesc();
-})();
-</script>
+    // Dynamic navigation link highlighting
+    const sections = document.querySelectorAll("header, section");
+    const navLinks = document.querySelectorAll("nav ul li a");
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        if (pageYOffset >= sectionTop - 60) {
+          current = section.getAttribute("id");
+        }
+      });
+      navLinks.forEach((a) => {
+        a.classList.remove("active");
+        if (a.getAttribute("href").includes(current)) {
+          a.classList.add("active");
+        }
+      });
+    });
+  </script>
 </body>
 </html>
